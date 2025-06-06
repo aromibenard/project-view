@@ -1,3 +1,4 @@
+import { Projects } from "@/components/projects";
 import { buttonVariants } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link"
@@ -14,9 +15,7 @@ export default function Home() {
                     <span className="text-accent-foreground">New Project</span>
                 </div>
             </Link>
-            <div className="grid ">
-                fdv
-            </div>
+            <Projects />
         </div>
     );
 }
