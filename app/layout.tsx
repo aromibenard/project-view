@@ -35,9 +35,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="p-3 flex items-center justify-between border-b fixed top-0 left-0 right-0 z-50"> 
+          <div className="p-2.5 flex items-center justify-between border-b fixed top-0 left-0 right-0 z-50"> 
             <div className="md:max-w-6xl mx-auto flex items-center justify-between w-full">
-              <span className="text-xl font-semibold">Project View</span>
+              <span className="text-xl font-bold drop-shadow-md">Project View</span>
               <ThemeToggle />
             </div>
           </div>
