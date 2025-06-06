@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased md:max-w-5xl mx-auto w-dvw`}
       >
         <ThemeProvider 
           attribute="class"
@@ -35,9 +35,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="p-3 flex items-center justify-between"> 
-            <span className="text-2xl font-semibold">Project View</span>
-            <ThemeToggle />
+          <div className="p-3 flex items-center justify-between border-b fixed top-0 left-0 right-0 z-50"> 
+            <div className="md:max-w-6xl mx-auto flex items-center justify-between w-full">
+              <span className="text-xl font-semibold">Project View</span>
+              <ThemeToggle />
+            </div>
           </div>
           {children}
         </ThemeProvider>
