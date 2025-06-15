@@ -8,20 +8,19 @@ export async function getProject(token: string) {
     try {
         const project = await db.project.findUnique({
             where: { publicToken: token },
-            include: { user: true },
+            include: { 
+                user: true,
+                milestones: { 
+                    include: { steps: true }
+                }
+            },
         });
 
         if (!project) {
             throw new Error("Project not found");
         }
 
-        return {
-            id: project.id,
-            title: project.title,
-            description: project.description,
-            userId: project.userId,
-            publicToken: project.publicToken,
-        };
+        return project
     } catch (error) {
         console.error("Error fetching project:", error);
         throw new Error("Failed to fetch project");

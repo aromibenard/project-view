@@ -1,14 +1,14 @@
 import Project from "@/components/project";
 import { Suspense } from "react";
 
-export default function Page ({ params 
+export default  async function Page ({ params 
 
 } : { params: Promise<{ token: string }> }) {
-    const tokenPromise = params
+    const token = await params
     return (
-        <div className="font-[family-name:var(--font-geist-sans)] py-16 px-3">
+        <div className="font-[family-name:var(--font-geist-sans)] py-4 px-3">
             <Suspense fallback={<div>Loading...</div>}>
-                <Project tokenPromise={tokenPromise} />
+                <Project token={token.token} />
             </Suspense>
         </div>
     );
