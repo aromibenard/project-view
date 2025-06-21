@@ -4,26 +4,98 @@ import { calculateProjectProgress } from "@/lib/utils";
 
 // Mock project
 const project = {
-    title: "Launch Website",
+    id: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
+    title: "E-Commerce Website Redesign",
+    description: "Complete redesign of our online store with modern UI and improved checkout flow",
+    publicToken: "pub_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
+    isPublic: true,
+    userId: "user_2fJk4L9qXzY7wV1bA3cD5eF6g",
+    createdAt: new Date("2024-02-15T09:30:00Z"),
+    updatedAt: new Date("2024-02-20T14:45:00Z"),
     milestones: [
         {
-        id: "m1",
-        title: "Design Phase",
+        id: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T",
+        title: "Discovery & Planning",
+        order: 1,
+        projectId: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
         steps: [
-            { id: "s1", title: "Wireframes", completed: true },
-            { id: "s2", title: "Design System", completed: true },
-            { id: "s3", title: "High-fidelity UI", completed: false },
-        ],
+            {
+            id: "step_01HS5XK3W6E9Q2Z1Y3N7P8G6T",
+            title: "Conduct user research",
+            completed: true,
+            milestoneId: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T"
+            },
+            {
+            id: "step_01HS5XK3W7E9Q2Z1Y3N7P8G6T",
+            title: "Create project roadmap",
+            completed: true,
+            milestoneId: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T"
+            },
+            {
+            id: "step_01HS5XK3W8E9Q2Z1Y3N7P8G6T",
+            title: "Define KPIs",
+            completed: false,
+            milestoneId: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T"
+            }
+        ]
         },
         {
-        id: "m2",
-        title: "Development Phase",
+        id: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T",
+        title: "UI/UX Design",
+        order: 2,
+        projectId: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
         steps: [
-            { id: "s4", title: "Set up repo", completed: true },
-            { id: "s5", title: "Implement homepage", completed: false },
-        ],
+            {
+            id: "step_01HS5XK3WAE9Q2Z1Y3N7P8G6T",
+            title: "Create wireframes",
+            completed: true,
+            milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
+            },
+            {
+            id: "step_01HS5XK3WBE9Q2Z1Y3N7P8G6T",
+            title: "Design style guide",
+            completed: false,
+            milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
+            },
+            {
+            id: "step_01HS5XK3WCE9Q2Z1Y3N7P8G6T",
+            title: "Create high-fidelity mockups",
+            completed: false,
+            milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
+            }
+        ]
         },
+        {
+        id: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T",
+        title: "Development",
+        order: 3,
+        projectId: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
+        steps: [
+            {
+            id: "step_01HS5XK3WEE9Q2Z1Y3N7P8G6T",
+            title: "Setup development environment",
+            completed: false,
+            milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
+            },
+            {
+            id: "step_01HS5XK3WFE9Q2Z1Y3N7P8G6T",
+            title: "Implement homepage",
+            completed: false,
+            milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
+            },
+            {
+            id: "step_01HS5XK3WGE9Q2Z1Y3N7P8G6T",
+            title: "Build checkout flow",
+            completed: false,
+            milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
+            }
+        ]
+        }
     ],
+    user: {
+        clerkId: "user_2y95zTl0aQPpppXOSPhyKceOnqm",
+        // ... other user fields
+    }
 };
 
 function ProgressBar({ progress, segments }: { progress: number; segments: number }) {
@@ -62,7 +134,7 @@ function ProgressBar({ progress, segments }: { progress: number; segments: numbe
 
 
 
-export default async function Project({ token }: { token: string  }) {
+export default async function Project({ token, userId }: { token: string , userId: string | null }) {
     // const project = await getProject(token)
     const progress = calculateProjectProgress(project)
     
@@ -87,6 +159,7 @@ export default async function Project({ token }: { token: string  }) {
                         key={milestone.id} 
                         milestone={milestone} 
                         isLast={ index === project.milestones.length - 1 }
+                        userId={userId}
                     />
                 ))
             ) : (
