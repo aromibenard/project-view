@@ -1,7 +1,5 @@
-import { CheckCircle, Circle } from "lucide-react";
 import { Step } from "./step-card";
-import { auth } from "@clerk/nextjs/server";
-import { db } from "@/database";
+import MilestoneContent from "./milestone-content";
 
 export interface Milestone {
     id: string;
@@ -16,8 +14,8 @@ function calculateProgress(steps: Step[]): number {
 }
 
 export async function MilestoneSection({ 
-    milestone, isLast, userId, projectUserId
-} : { milestone: Milestone; isLast: boolean, userId: string | null , projectUserId: string  }) {
+    milestone, isLast, userId, projectUserId, token,
+} : { milestone: Milestone; isLast: boolean, userId: string | null , projectUserId: string, token: string  }) {
     const progress = calculateProgress(milestone.steps);
     let isOwner = false
 
@@ -60,23 +58,11 @@ export async function MilestoneSection({
         </div>
 
         {/* Content column */}
-        <div className=" pb-4 ml-4">
-            <h2 className="text-xl font-bold mb-2">{milestone.title}</h2>
-            <div className="space-y-2">
-            {milestone.steps.map((step) => (
-                <div key={step.id} className="flex items-center">
-                {step.completed ? (
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                ) : (
-                    <Circle className="w-4 h-4 text-gray-400 mr-2" />
-                )}
-                <span className={`text-sm ${step.completed ? "line-through text-gray-400" : ""}`}>
-                    {step.title}
-                </span>
-                </div>
-            ))}
-            </div>
-        </div>
+        <MilestoneContent 
+            milestone={milestone} 
+            isOwner={isOwner}
+            token={token} 
+        />
         </div>
     );
 }

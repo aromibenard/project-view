@@ -9,7 +9,7 @@ const project = {
     description: "Complete redesign of our online store with modern UI and improved checkout flow",
     publicToken: "pub_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
     isPublic: true,
-    userId: "user_2fJk4L9qXzY7wV1bA3cD5eF6g",
+    userId: "user_2y95zTl0aQPpppXOSPhyKceOnqm",
     createdAt: new Date("2024-02-15T09:30:00Z"),
     updatedAt: new Date("2024-02-20T14:45:00Z"),
     milestones: [
@@ -54,7 +54,7 @@ const project = {
             {
             id: "step_01HS5XK3WBE9Q2Z1Y3N7P8G6T",
             title: "Design style guide",
-            completed: false,
+            completed: true,
             milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
             },
             {
@@ -74,7 +74,7 @@ const project = {
             {
             id: "step_01HS5XK3WEE9Q2Z1Y3N7P8G6T",
             title: "Setup development environment",
-            completed: false,
+            completed: true,
             milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
             },
             {
@@ -161,6 +161,7 @@ export default async function Project({ token, userId }: { token: string , userI
                         isLast={ index === project.milestones.length - 1 }
                         userId={userId}
                         projectUserId={project.userId}
+                        token={token}
                     />
                 ))
             ) : (

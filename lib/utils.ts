@@ -18,3 +18,5 @@ export function calculateProjectProgress(project: {
   return Math.round((completed / total) * 100);
 }
 
+
+export const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
