@@ -16,17 +16,16 @@ function calculateProgress(steps: Step[]): number {
 }
 
 export async function MilestoneSection({ 
-    milestone, isLast, userId
-}: { milestone: Milestone; isLast: boolean, userId: string | null  }) {
+    milestone, isLast, userId, projectUserId
+} : { milestone: Milestone; isLast: boolean, userId: string | null , projectUserId: string  }) {
     const progress = calculateProgress(milestone.steps);
-    
-    if(userId) {
-        const user = await db.user.findUnique({
-            where: { clerkId: userId }
-        })
+    let isOwner = false
 
-        if (user.)
-    }
+    console.log(userId, projectUserId)
+    
+    if(userId && userId === projectUserId ) isOwner = true
+
+    console.log(isOwner)
 
     return (
         <div className="grid grid-cols-[auto_1fr] gap-x-4">

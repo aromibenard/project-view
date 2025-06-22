@@ -93,7 +93,7 @@ const project = {
         }
     ],
     user: {
-        clerkId: "user_2y95zTl0aQPpppXOSPhyKceOnqm",
+        clerkId: "user_2fJk4L9qXzY7wV1bA3cD5eF6g",
         // ... other user fields
     }
 };
@@ -160,6 +160,7 @@ export default async function Project({ token, userId }: { token: string , userI
                         milestone={milestone} 
                         isLast={ index === project.milestones.length - 1 }
                         userId={userId}
+                        projectUserId={project.userId}
                     />
                 ))
             ) : (
