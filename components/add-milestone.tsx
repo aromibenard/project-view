@@ -30,11 +30,10 @@ import { Spinner } from "./spinner"
 import { Plus } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { createManySteps } from "@/lib/actions/createManySteps"
-import { createStep } from "@/lib/actions/createStep"
 import Form from "next/form"
-import { createStepHandler } from "@/lib/actions/createStepHandler"
+import { createMilestone } from "@/lib/actions/createMilestone"
 
-export function AddStep({ id, token }: { id: string, token: string }) {
+export function AddMilestone({ projectId, token }: { projectId: string, token: string }) {
     const [open, setOpen] = React.useState(false)
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -42,16 +41,18 @@ export function AddStep({ id, token }: { id: string, token: string }) {
         return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-            <Button variant="outline">New Step(s)</Button>
+                <div className="hover:border-green-400 hover:cursor-pointer transition-all rounded ml-4 mt-2 border border-dashed px-2 p-4 bg-muted">
+                    Add Milestone(s)
+                </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Create new Step(s)</DialogTitle>
+                <DialogTitle>Create Milestone(s)</DialogTitle>
                 <DialogDescription>
-                Add single or multiple steps at once.
+                Add single or multiple milestones at once.
                 </DialogDescription>
             </DialogHeader>
-            <NewStepForm id={id} token={token} />
+            <NewStepForm projectId={projectId} token={token} />
             </DialogContent>
         </Dialog>
         )
@@ -60,16 +61,18 @@ export function AddStep({ id, token }: { id: string, token: string }) {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-            <Button variant="outline">New Step(s)</Button>
+            <div className=" rounded ml-4 mt-2 border border-dashed px-2 p-4 bg-muted">
+                Add Milestone(s)
+            </div>
         </DrawerTrigger>
         <DrawerContent>
             <DrawerHeader className="text-left">
-            <DrawerTitle>Create new Step(s)</DrawerTitle>
+            <DrawerTitle>Create new Milestone(s)</DrawerTitle>
             <DrawerDescription>
-                Add single or multiple steps at once.
+                Add single or multiple milestones at once.
             </DrawerDescription>
             </DrawerHeader>
-            <NewStepForm className="px-4" id={id} token={token} />
+            <NewStepForm className="px-4" projectId={projectId} token={token} />
             <DrawerFooter className="pt-2">
             <DrawerClose asChild>
                 <Button variant="outline">Cancel</Button>
@@ -80,12 +83,12 @@ export function AddStep({ id, token }: { id: string, token: string }) {
     )
 }
 
-function NewStepForm({ className, id, token }: { className?: string, id: string, token: string }) {
+function NewStepForm({ className, projectId, token  }: { className?: string, projectId: string, token: string }) {
     const [isMultiple, setIsMultiple] = React.useState(false)
     
     return (
         <Form 
-            action={isMultiple ? createManySteps : createStep } 
+            action={isMultiple ? createManySteps : createMilestone } 
             className={cn("grid items-start gap-6", className)}
         >
             <div className="flex items-center gap-4">
@@ -94,12 +97,12 @@ function NewStepForm({ className, id, token }: { className?: string, id: string,
                     checked={isMultiple}
                     onCheckedChange={setIsMultiple}
                 />
-                <Label htmlFor="multiple-mode">Add multiple steps</Label>
+                <Label htmlFor="multiple-mode">Add multiple milestones</Label>
             </div>
 
             {isMultiple ? (
                 <div className="grid gap-4">
-                    <Label htmlFor="steps">Steps (one per line)</Label>
+                    <Label htmlFor="steps">Milestones (one per line)</Label>
                     <Textarea 
                         id="steps" 
                         name="steps" 
@@ -110,19 +113,17 @@ function NewStepForm({ className, id, token }: { className?: string, id: string,
                 </div>
             ) : (
                 <div className="grid gap-3">
-                    <Label htmlFor="title">Step Title</Label>
+                    <Label htmlFor="title">Milestone Title</Label>
                     <Input type="text" id="title" name="title" required />
                 </div>
-                
             )}
             
-            <input type="hidden" value={id} name="milestoneId"/>
+            <input type="hidden" value={projectId} name="projectId"/>
             <input type="hidden" value={token} name="projectToken"/>
-            
             <SubmitButton
                 pendingChildren={<Spinner />}
-                text={isMultiple ? "Create Steps" : "Create Step"}
-                actionText={isMultiple ? "Creating Steps..." : "Creating Step..."}
+                text={isMultiple ? "Create Milestones" : "Create Milestone"}
+                actionText={isMultiple ? "Creating Milestones..." : "Creating Milestone..."}
             >
                 <Plus />
             </SubmitButton>

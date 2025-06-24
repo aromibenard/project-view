@@ -3,7 +3,6 @@
 import { db } from "@/database"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { wait } from "../utils"
 
 const deleteSchema = z.object({
     id: z.string().min(1, 'Missing Step ID'),
@@ -13,7 +12,7 @@ const deleteSchema = z.object({
 export async function deleteStep(formData: FormData ) {
     try {
         const parsed = deleteSchema.safeParse({
-            id: formData.get('milestoneId'),
+            id: formData.get('stepId'),
             projectToken: formData.get('projectToken'),
         })
 
@@ -24,11 +23,10 @@ export async function deleteStep(formData: FormData ) {
 
         const { id, projectToken } = parsed.data
         
-        await wait(2000)
 
-        // await db.step.delete({
-        //     where: { id: id }
-        // })
+        await db.step.delete({
+            where: { id: id }
+        })
 
         revalidatePath(`/project/${projectToken}`)
 

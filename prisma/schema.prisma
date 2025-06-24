@@ -16,38 +16,42 @@ datasource db {
 
 model User {
   id        String    @id @default(cuid()) // Optional: only if you store user metadata locally
-  clerkId   String    @unique              // Clerk user ID
+  clerkId   String    @unique // Clerk user ID
   projects  Project[]
   createdAt DateTime  @default(now())
 }
 
 model Project {
-  id           String      @id @default(cuid())
-  title        String
-  description  String
-  publicToken  String      @unique         // Used for client-facing view
-  isPublic     Boolean     @default(false) // Controls visibility via token
-  userId       String                          // Clerk user ID
-  user         User        @relation(fields: [userId], references: [clerkId])
-  milestones   Milestone[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  publicToken String      @unique // Used for client-facing view
+  isPublic    Boolean     @default(false) // Controls visibility via token
+  userId      String // Clerk user ID
+  user        User        @relation(fields: [userId], references: [clerkId])
+  milestones  Milestone[]
+  completed   Boolean     @default(false)
+  completedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 model Milestone {
-  id         String     @id @default(cuid())
-  title      String
-  order      Int                                // For sorting milestones
-  projectId  String
-  project    Project    @relation(fields: [projectId], references: [id])
-  steps      Step[]
+  id          String    @id @default(cuid())
+  title       String
+  order       Int       @default(0) // For sorting milestones
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id])
+  steps       Step[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
 }
 
 model Step {
-  id          String     @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  completed   Boolean    @default(false)
+  completed   Boolean   @default(false)
   milestoneId String
-  milestone   Milestone  @relation(fields: [milestoneId], references: [id])
+  milestone   Milestone @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
 }
-

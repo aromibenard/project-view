@@ -1,102 +1,8 @@
 import { getProject } from "@/lib/data/getProject";
 import { MilestoneSection } from "./milestone";
 import { calculateProjectProgress } from "@/lib/utils";
+import { AddMilestone } from "./add-milestone";
 
-// Mock project
-const project = {
-    id: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
-    title: "E-Commerce Website Redesign",
-    description: "Complete redesign of our online store with modern UI and improved checkout flow",
-    publicToken: "pub_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
-    isPublic: true,
-    userId: "user_2y95zTl0aQPpppXOSPhyKceOnqm",
-    createdAt: new Date("2024-02-15T09:30:00Z"),
-    updatedAt: new Date("2024-02-20T14:45:00Z"),
-    milestones: [
-        {
-        id: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T",
-        title: "Discovery & Planning",
-        order: 1,
-        projectId: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
-        steps: [
-            {
-            id: "step_01HS5XK3W6E9Q2Z1Y3N7P8G6T",
-            title: "Conduct user research",
-            completed: true,
-            milestoneId: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T"
-            },
-            {
-            id: "step_01HS5XK3W7E9Q2Z1Y3N7P8G6T",
-            title: "Create project roadmap",
-            completed: true,
-            milestoneId: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T"
-            },
-            {
-            id: "step_01HS5XK3W8E9Q2Z1Y3N7P8G6T",
-            title: "Define KPIs",
-            completed: false,
-            milestoneId: "mil_01HS5XK3W5E9Q2Z1Y3N7P8G6T"
-            }
-        ]
-        },
-        {
-        id: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T",
-        title: "UI/UX Design",
-        order: 2,
-        projectId: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
-        steps: [
-            {
-            id: "step_01HS5XK3WAE9Q2Z1Y3N7P8G6T",
-            title: "Create wireframes",
-            completed: true,
-            milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
-            },
-            {
-            id: "step_01HS5XK3WBE9Q2Z1Y3N7P8G6T",
-            title: "Design style guide",
-            completed: true,
-            milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
-            },
-            {
-            id: "step_01HS5XK3WCE9Q2Z1Y3N7P8G6T",
-            title: "Create high-fidelity mockups",
-            completed: false,
-            milestoneId: "mil_01HS5XK3W9E9Q2Z1Y3N7P8G6T"
-            }
-        ]
-        },
-        {
-        id: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T",
-        title: "Development",
-        order: 3,
-        projectId: "proj_01HS5XK3W4E9Q2Z1Y3N7P8G6T",
-        steps: [
-            {
-            id: "step_01HS5XK3WEE9Q2Z1Y3N7P8G6T",
-            title: "Setup development environment",
-            completed: true,
-            milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
-            },
-            {
-            id: "step_01HS5XK3WFE9Q2Z1Y3N7P8G6T",
-            title: "Implement homepage",
-            completed: false,
-            milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
-            },
-            {
-            id: "step_01HS5XK3WGE9Q2Z1Y3N7P8G6T",
-            title: "Build checkout flow",
-            completed: false,
-            milestoneId: "mil_01HS5XK3WDE9Q2Z1Y3N7P8G6T"
-            }
-        ]
-        }
-    ],
-    user: {
-        clerkId: "user_2fJk4L9qXzY7wV1bA3cD5eF6g",
-        // ... other user fields
-    }
-};
 
 function ProgressBar({ progress, segments }: { progress: number; segments: number }) {
     return (
@@ -135,7 +41,7 @@ function ProgressBar({ progress, segments }: { progress: number; segments: numbe
 
 
 export default async function Project({ token, userId }: { token: string , userId: string | null }) {
-    // const project = await getProject(token)
+    const project = await getProject(token)
     const progress = calculateProjectProgress(project)
     
     return (
@@ -153,7 +59,7 @@ export default async function Project({ token, userId }: { token: string , userI
 
             <ProgressBar  progress={progress} segments={25} />
 
-            {project.milestones.length > 1 ? (
+            {project.milestones.length >= 1 ? (
                 project.milestones.map((milestone, index) => (
                     <MilestoneSection 
                         key={milestone.id} 
@@ -162,10 +68,11 @@ export default async function Project({ token, userId }: { token: string , userI
                         userId={userId}
                         projectUserId={project.userId}
                         token={token}
+                        projectId={project.id}
                     />
                 ))
             ) : (
-                <p>add milestone</p>
+                <AddMilestone projectId={project.id} token={token} />
             )}
         </div>
     )

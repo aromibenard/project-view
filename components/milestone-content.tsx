@@ -19,7 +19,7 @@ export default function MilestoneContent({
         <div className=" pb-4 ml-4">
             <h2 className="text-xl font-bold mb-2">{milestone.title}</h2>
             <div className="space-y-2">
-            {milestone.steps.map((step, index) => {
+            {milestone.steps.length >= 1 && milestone.steps.map((step, index) => {
                 const isLastStep = index === milestone.steps.length - 1
 
                 return (
@@ -74,6 +74,11 @@ export default function MilestoneContent({
                     </div>
                 )
             })}
+            {milestone.steps.length < 0.9 && isOwner && (
+                <div className="mt-2">
+                    <AddStep id={milestone.id} token={token} />
+                </div>
+            )}
             </div>
         </div>
     )

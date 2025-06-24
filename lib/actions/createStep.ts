@@ -3,7 +3,6 @@
 import { db } from "@/database"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { wait } from "../utils"
 
 const stepSchema = z.object({
     milestoneId: z.string().min(1, 'Missing Step ID'),
@@ -11,30 +10,36 @@ const stepSchema = z.object({
     title: z.string().min(1, "Title is required").max(255)
 })
 
-export async function createStep(previousState: any, formData: FormData ) {
+export async function createStep(formData: FormData ) {
     try {
+        console.log('running')
         const parsed = stepSchema.safeParse({
             milestoneId: formData.get('milestoneId'),
             projectToken: formData.get('projectToken'),
             title: formData.get('title')
         })
+        console.log('1')
 
         if (!parsed.success) {
+            console.log(parsed.error.flatten().fieldErrors)
             return {
                 success: false,
                 error: parsed.error.flatten().fieldErrors,
             }
         }
 
-        const { milestoneId, projectToken, title } = parsed.data
+        console.log('2')
+
         
-        await wait(2000)
-        // await db.step.create({
-        //     data: {
-        //         milestoneId: milestoneId,
-        //         title: title
-        //     }
-        // })
+
+        const { milestoneId, projectToken, title } = parsed.data
+
+        await db.step.create({
+            data: {
+                milestoneId: milestoneId,
+                title: title
+            }
+        })
 
         revalidatePath(`/project/${projectToken}`)
 

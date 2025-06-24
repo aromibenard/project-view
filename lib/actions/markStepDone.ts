@@ -24,15 +24,14 @@ export async function markStepDone(previousState: any, formData: FormData ) {
             }
         }
 
-        await wait(2000)
 
-        // const { stepId, projectToken } = parsed.data
-        // await db.step.update({
-        //     where: { id: stepId },
-        //     data: { completed: true }
-        // })
+        const { stepId, projectToken } = parsed.data
+        await db.step.update({
+            where: { id: stepId },
+            data: { completed: true }
+        })
 
-        // revalidatePath(`/project/${projectToken}`)
+        revalidatePath(`/project/${projectToken}`)
 
         return { 
             success: true,
