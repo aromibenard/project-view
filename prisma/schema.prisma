@@ -46,6 +46,7 @@ model Milestone {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   completedAt DateTime?
+  completed   Boolean    @default(false)
 }
 
 model Step {

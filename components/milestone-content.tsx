@@ -1,5 +1,7 @@
 'use client'
 
+// todo: implement useaction state
+
 import { CheckCircle, Circle, Trash } from "lucide-react"
 import { Milestone } from "./milestone"
 import { useActionState } from "react"
@@ -9,6 +11,7 @@ import { Spinner } from "./spinner"
 import { markStepDone } from "@/lib/actions/markStepDone"
 import { AddStep } from "./drawer-dialog"
 import { deleteStep } from "@/lib/actions/deleteStep"
+import { deleteMilestone } from "@/lib/actions/deleteMilestone"
 
 export default function MilestoneContent({
     milestone, isOwner, token }: { milestone: Milestone, isOwner: boolean, token: string
@@ -17,7 +20,21 @@ export default function MilestoneContent({
 
     return (
         <div className=" pb-4 ml-4">
-            <h2 className="text-xl font-bold mb-2">{milestone.title}</h2>
+            <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold mb-2">{milestone.title}</h2>
+                <form action={deleteMilestone} className="flex items-center " >
+                    <input type="hidden" name="milestoneId" value={milestone.id} />
+                    <input type="hidden" name="projectToken" value={token} />
+                    <SubmitButton
+                        showText={false}
+                        pendingChildren={<Spinner />}
+                        variant={'ghost'}
+                    >
+                        <Trash className="" />
+                    </SubmitButton>
+
+                </form>
+            </div>
             <div className="space-y-2">
             {milestone.steps.length >= 1 && milestone.steps.map((step, index) => {
                 const isLastStep = index === milestone.steps.length - 1

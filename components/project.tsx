@@ -57,7 +57,7 @@ export default async function Project({ token, userId }: { token: string , userI
                 }`}>{Math.round(progress)}%</h1>
             </span>
 
-            <ProgressBar  progress={progress} segments={25} />
+            <ProgressBar  progress={progress} segments={30} />
 
             {project.milestones.length >= 1 ? (
                 project.milestones.map((milestone, index) => (
