@@ -22,32 +22,34 @@ model User {
 }
 
 model Project {
-  id          String      @id @default(cuid())
-  title       String
-  description String
-  publicToken String      @unique // Used for client-facing view
-  isPublic    Boolean     @default(false) // Controls visibility via token
-  userId      String // Clerk user ID
-  user        User        @relation(fields: [userId], references: [clerkId])
-  milestones  Milestone[]
-  completed   Boolean     @default(false)
-  completedAt DateTime?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id                 String      @id @default(cuid())
+  title              String
+  description        String
+  publicToken        String      @unique // Used for client-facing view
+  isPublic           Boolean     @default(false) // Controls visibility via token
+  userId             String // Clerk user ID
+  user               User        @relation(fields: [userId], references: [clerkId])
+  milestones         Milestone[]
+  completed          Boolean     @default(false)
+  completedAt        DateTime?
+  notificationSentAt DateTime?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
 }
 
 model Milestone {
-  id          String    @id @default(cuid())
-  title       String
-  order       Int       @default(0) // For sorting milestones
-  projectId   String
-  project     Project   @relation(fields: [projectId], references: [id])
-  steps       Step[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  completedAt DateTime?
-  completed   Boolean    @default(false)
+  id                 String    @id @default(cuid())
+  title              String
+  order              Int       @default(0) // For sorting milestones
+  projectId          String
+  project            Project   @relation(fields: [projectId], references: [id])
+  steps              Step[]
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  completedAt        DateTime?
+  completed          Boolean   @default(false)
   notificationSentAt DateTime?
+  progressNotified   String[]  @default([])
 }
 
 model Step {
