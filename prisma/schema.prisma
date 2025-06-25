@@ -47,6 +47,7 @@ model Milestone {
   updatedAt   DateTime  @updatedAt
   completedAt DateTime?
   completed   Boolean    @default(false)
+  notificationSentAt DateTime?
 }
 
 model Step {

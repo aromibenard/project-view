@@ -3,7 +3,7 @@
 import { db } from "@/database"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { wait } from "../utils"
+import { sendMilestoneEmail } from "./sendMilestoneEmail"
 
 const stepDoneSchema = z.object({
     stepId: z.string().min(1, 'Missing Step ID'),
@@ -26,10 +26,50 @@ export async function markStepDone(previousState: any, formData: FormData ) {
 
 
         const { stepId, projectToken } = parsed.data
-        await db.step.update({
+        
+        const step = await db.step.update({
             where: { id: stepId },
-            data: { completed: true }
+            data: { completed: true },
+            include: { 
+                milestone: {
+                    include: {
+                        steps: true,
+                        project: {
+                            include: {
+                                milestones: {
+                                    include: { steps: true }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         })
+
+        const milestone = step.milestone
+        const project = milestone.project
+
+        // evaluate milestone completion
+        const allStepsDone = milestone.steps.every(s => s.completed)
+
+        if (allStepsDone && !milestone.completed && !milestone.notificationSentAt) {
+            await db.milestone.update({
+                where: { id: milestone.id },
+                data: {
+                    completed: true,
+                    completedAt: new Date(),
+                    notificationSentAt: new Date()
+                }
+            })
+
+            await sendMilestoneEmail({
+                to: 'aromibenard@gmail.com',
+                projectTitle: project.title,
+                milestoneTitle: milestone.title,
+                completedSteps: milestone.steps.length,
+                totalSteps: milestone.steps.length,
+            })
+        }
 
         revalidatePath(`/project/${projectToken}`)
 
