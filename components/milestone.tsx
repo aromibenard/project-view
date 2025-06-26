@@ -1,6 +1,7 @@
 import { Step } from "./step-card";
 import MilestoneContent from "./milestone-content";
 import { AddMilestone } from "./add-milestone";
+import { ShareLink } from "./share-link";
 
 export interface Milestone {
     id: string;
@@ -28,11 +29,7 @@ export async function MilestoneSection({
     const progress = calculateProgress(milestone.steps);
     let isOwner = false
 
-    console.log(userId, projectUserId)
-    
     if(userId && userId === projectUserId ) isOwner = true
-
-    console.log(isOwner)
 
     return (
         <div className="grid grid-cols-[auto_1fr] gap-x-4">
@@ -77,6 +74,7 @@ export async function MilestoneSection({
                 {isLast && isOwner && (
                     <AddMilestone token={token} projectId={projectId} />
                 )}
+                {/* {isOwner  && isLast && <ShareLink />} */}
             </div>
         </div>
     );
