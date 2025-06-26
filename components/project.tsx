@@ -2,6 +2,7 @@ import { getProject } from "@/lib/data/getProject";
 import { MilestoneSection } from "./milestone";
 import { calculateProjectProgress } from "@/lib/utils";
 import { AddMilestone } from "./add-milestone";
+import { ProgressUpdateCTA } from "./progress-updateCta";
 
 
 function ProgressBar({ progress, segments }: { progress: number; segments: number }) {
@@ -58,6 +59,7 @@ export default async function Project({ token, userId }: { token: string , userI
             </span>
 
             <ProgressBar  progress={progress} segments={30} />
+            <ProgressUpdateCTA projectId={project.id} />
 
             {project.milestones.length >= 1 ? (
                 project.milestones.map((milestone, index) => (

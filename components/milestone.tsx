@@ -69,8 +69,6 @@ export async function MilestoneSection({
                     <AddMilestone token={token} projectId={projectId} />
                 )}
             </div>
-
-            
         </div>
     );
 }
