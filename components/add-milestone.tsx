@@ -29,7 +29,6 @@ import { SubmitButton } from "./submit-button"
 import { Spinner } from "./spinner"
 import { Plus } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
-import { createManySteps } from "@/lib/actions/createManySteps"
 import Form from "next/form"
 import { createMilestone } from "@/lib/actions/createMilestone"
 
@@ -88,7 +87,7 @@ function NewStepForm({ className, projectId, token  }: { className?: string, pro
     
     return (
         <Form 
-            action={isMultiple ? createManySteps : createMilestone } 
+            action={createMilestone } 
             className={cn("grid items-start gap-6", className)}
         >
             <div className="flex items-center gap-4">

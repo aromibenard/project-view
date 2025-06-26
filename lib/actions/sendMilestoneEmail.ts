@@ -28,7 +28,7 @@ export async function sendMilestoneEmail({
                         <div style="background: #e5e7eb; border-radius: 999px; height: 10px; width: 100%;">
                             <div style="height: 10px; background: #3b82f6; border-radius: 999px; width: ${100}%;"></div>
                         </div>
-                        <p>${totalSteps} out of ${totalSteps} steps completed.</p>
+                        <p>${completedSteps} out of ${totalSteps} steps completed.</p>
                     </div>
                     <p style="margin-top: 30px; font-size: 14px; color: #888;">You received this update because you're tracking this project. No action is needed.</p>
                 </div>

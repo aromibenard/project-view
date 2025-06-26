@@ -9,7 +9,7 @@ const deleteSchema = z.object({
     projectToken: z.string().min(1, 'Missing project ID')
 })
 
-export async function deleteMilestone(formData: FormData ) {
+export async function deleteMilestone(previousState: unknown, formData: FormData ) {
     try {
         const parsed = deleteSchema.safeParse({
             id: formData.get('milestoneId'),
@@ -17,8 +17,10 @@ export async function deleteMilestone(formData: FormData ) {
         })
 
         if (!parsed.success) {
-            console.error( parsed.error.flatten().fieldErrors)
-            return
+            return {
+                success: false,
+                error: parsed.error.flatten().fieldErrors
+            }
         }
 
         const { id, projectToken } = parsed.data
@@ -37,7 +39,7 @@ export async function deleteMilestone(formData: FormData ) {
     } catch (error) {
         return {
             success: false,
-            error: 'Marking Step done failed'
+            error: `Marking Step done failed ${error}`
         }
     }
 }

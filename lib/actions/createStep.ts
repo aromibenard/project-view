@@ -22,10 +22,11 @@ export async function createStep(formData: FormData ) {
 
         if (!parsed.success) {
             console.log(parsed.error.flatten().fieldErrors)
-            return {
-                success: false,
-                error: parsed.error.flatten().fieldErrors,
-            }
+            return
+            // return {
+            //     success: false,
+            //     error: parsed.error.flatten().fieldErrors,
+            // }
         }
 
         console.log('2')
@@ -43,14 +44,16 @@ export async function createStep(formData: FormData ) {
 
         revalidatePath(`/project/${projectToken}`)
 
-        return { 
-            success: true,
-            message: "Success!"
-        }
+        // return { 
+        //     success: true,
+        //     message: "Success!"
+        // }
     } catch (error) {
-        return {
-            success: false,
-            error: 'Marking Step done failed'
-        }
+        console.error(error)
+        return
+        // return {
+        //     success: false,
+        //     error: `Marking Step done failed: ${error}`
+        // }
     }
 }

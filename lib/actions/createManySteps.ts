@@ -45,10 +45,10 @@ export async function createManySteps(formData: FormData) {
 
         await wait(4000)
 
-        // await db.step.createMany({
-        //     data: result.data.steps,
-        //     skipDuplicates: true
-        // })
+        await db.step.createMany({
+            data: result.data.steps,
+            skipDuplicates: true
+        })
 
         revalidatePath(`/project/${projectToken}`)
 

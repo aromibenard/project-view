@@ -29,10 +29,8 @@ import { SubmitButton } from "./submit-button"
 import { Spinner } from "./spinner"
 import { Plus } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
-import { createManySteps } from "@/lib/actions/createManySteps"
 import { createStep } from "@/lib/actions/createStep"
 import Form from "next/form"
-import { createStepHandler } from "@/lib/actions/createStepHandler"
 
 export function AddStep({ id, token }: { id: string, token: string }) {
     const [open, setOpen] = React.useState(false)
@@ -85,7 +83,7 @@ function NewStepForm({ className, id, token }: { className?: string, id: string,
     
     return (
         <Form 
-            action={isMultiple ? createManySteps : createStep } 
+            action={createStep } 
             className={cn("grid items-start gap-6", className)}
         >
             <div className="flex items-center gap-4">
