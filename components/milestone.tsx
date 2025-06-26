@@ -1,7 +1,6 @@
 import { Step } from "./step-card";
 import MilestoneContent from "./milestone-content";
 import { AddMilestone } from "./add-milestone";
-import { ShareLink } from "./share-link";
 
 export interface Milestone {
     id: string;
