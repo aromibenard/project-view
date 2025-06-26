@@ -14,7 +14,9 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
 export default function MilestoneContent({
-    milestone, isOwner, token }: { milestone: Milestone, isOwner: boolean, token: string
+    milestone, isOwner, token, clientEmail 
+}: { 
+    milestone: Milestone, isOwner: boolean, token: string, clientEmail: string | null
 }) {
     const [markingDonestate, markStepDoneformAction, isMarkingStepDonePending] = useActionState(markStepDone, null)
     const [deleteMilestoneState, deleteMilestoneFormAction, isDeletingMilestonePending] = useActionState(deleteMilestone, null)
@@ -138,6 +140,9 @@ export default function MilestoneContent({
                                     <Form action={markStepDoneformAction}>
                                         <input type='hidden' name="stepId" value={step.id} />
                                         <input type='hidden' name="projectToken" value={token} />
+                                        {clientEmail && (
+                                            <input type="hidden" name="clientEmail" value={clientEmail} />
+                                        )}
 
                                         {typeof markingDonestate?.error === 'object' && markingDonestate.error?.stepId && (
                                             <p className="text-sm text-red-500">

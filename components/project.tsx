@@ -59,7 +59,10 @@ export default async function Project({ token, userId }: { token: string , userI
             </span>
 
             <ProgressBar  progress={progress} segments={30} />
-            <ProgressUpdateCTA projectId={project.id} />
+
+            {!project.clientEmail && (
+                <ProgressUpdateCTA projectId={project.id} />
+            )}
 
             {project.milestones.length >= 1 ? (
                 project.milestones.map((milestone, index) => (
@@ -71,6 +74,7 @@ export default async function Project({ token, userId }: { token: string , userI
                         projectUserId={project.userId}
                         token={token}
                         projectId={project.id}
+                        clientEmail={project.clientEmail}
                     />
                 ))
             ) : (

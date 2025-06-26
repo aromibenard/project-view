@@ -8,13 +8,15 @@ import { sendMilestoneEmail } from "./sendMilestoneEmail"
 const stepDoneSchema = z.object({
     stepId: z.string().min(1, 'Missing Step ID'),
     projectToken: z.string().min(1, 'Missing project ID'),
+    clientEmail: z.string().optional()
 })
 
 export async function markStepDone(previousState: unknown, formData: FormData ) {
     try {
         const parsed = stepDoneSchema.safeParse({
             stepId: formData.get('stepId'),
-            projectToken: formData.get('projectToken')
+            projectToken: formData.get('projectToken'),
+            clientEmail: formData.get('clientEmail')
         })
 
         if (!parsed.success) {
@@ -25,7 +27,7 @@ export async function markStepDone(previousState: unknown, formData: FormData ) 
         }
 
 
-        const { stepId, projectToken } = parsed.data
+        const { stepId, projectToken, clientEmail } = parsed.data
         
         const step = await db.step.update({
             where: { id: stepId },
@@ -40,9 +42,9 @@ export async function markStepDone(previousState: unknown, formData: FormData ) 
                                     include: { steps: true }
                                 }
                             }
-                        }
+                        },
                     }
-                }
+                },
             }
         })
 
@@ -63,7 +65,7 @@ export async function markStepDone(previousState: unknown, formData: FormData ) 
             })
 
             await sendMilestoneEmail({
-                to: 'aromibenard@gmail.com',
+                to: clientEmail ?? 'aromibenard@gmail.com',
                 projectTitle: project.title,
                 milestoneTitle: milestone.title,
                 completedSteps: milestone.steps.length,

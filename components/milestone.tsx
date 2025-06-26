@@ -15,8 +15,16 @@ function calculateProgress(steps: Step[]): number {
 }
 
 export async function MilestoneSection({ 
-    milestone, isLast, userId, projectUserId, token, projectId
-} : { milestone: Milestone; isLast: boolean, userId: string | null , projectUserId: string, token: string, projectId: string  }) {
+    milestone, isLast, userId, projectUserId, token, projectId, clientEmail
+} : { 
+    milestone: Milestone; 
+    isLast: boolean, 
+    userId: string | null , 
+    projectUserId: string, 
+    token: string, 
+    projectId: string,
+    clientEmail: string  | null
+}) {
     const progress = calculateProgress(milestone.steps);
     let isOwner = false
 
@@ -63,7 +71,8 @@ export async function MilestoneSection({
                 <MilestoneContent 
                     milestone={milestone} 
                     isOwner={isOwner}
-                    token={token} 
+                    token={token}
+                    clientEmail={clientEmail} 
                 />
                 {isLast && isOwner && (
                     <AddMilestone token={token} projectId={projectId} />

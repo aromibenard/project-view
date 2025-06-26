@@ -27,7 +27,7 @@ export function ProgressUpdateCTA({ projectId }: { projectId: string }) {
 
     return (
         <div className="my-8 p-4 border rounded-md bg-muted/50">
-        <p className="text-sm mb-2">Get notified of progress updates. Leave your email:</p>
+        <p className="text-sm mb-2">Get notified of progress updates? Leave your email:</p>
         <div className="flex items-center gap-2">
             <Input
             type="email"
