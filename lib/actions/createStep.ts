@@ -7,7 +7,8 @@ import { z } from "zod"
 const stepSchema = z.object({
     milestoneId: z.string().min(1, 'Missing Step ID'),
     projectToken: z.string().min(1, 'Missing project ID'),
-    title: z.string().min(1, "Title is required").max(255)
+    title: z.string().min(1, "Title is required").max(255),
+    projectId: z.string().min(1, 'Missing project ID')
 })
 
 export async function createStep(formData: FormData ) {
@@ -16,7 +17,8 @@ export async function createStep(formData: FormData ) {
         const parsed = stepSchema.safeParse({
             milestoneId: formData.get('milestoneId'),
             projectToken: formData.get('projectToken'),
-            title: formData.get('title')
+            title: formData.get('title'),
+            projectId: formData.get('projectId')
         })
         console.log('1')
 
@@ -31,14 +33,13 @@ export async function createStep(formData: FormData ) {
 
         console.log('2')
 
-        
-
-        const { milestoneId, projectToken, title } = parsed.data
+        const { milestoneId, projectToken, title, projectId } = parsed.data
 
         await db.step.create({
             data: {
                 milestoneId: milestoneId,
-                title: title
+                title: title,
+                projectId
             }
         })
 

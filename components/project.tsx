@@ -3,6 +3,8 @@ import { MilestoneSection } from "./milestone";
 import { calculateProjectProgress } from "@/lib/utils";
 import { AddMilestone } from "./add-milestone";
 import { ProgressUpdateCTA } from "./progress-updateCta";
+import HeatMap from "./activity-map";
+import { getStepsCompletedCount } from "@/lib/data/getStepsCompletedCount";
 
 function ProgressBar({ progress, segments }: { progress: number; segments: number }) {
     return (
@@ -42,7 +44,8 @@ function ProgressBar({ progress, segments }: { progress: number; segments: numbe
 export default async function Project({ token, userId }: { token: string , userId: string | null }) {
     const project = await getProject(token)
     const progress = calculateProjectProgress(project)
-    
+    const activityData = await getStepsCompletedCount(project.id)
+
     return (
         <div className="font-[family-name:var(--font-geist-sans)] py-16 px-3 flex flex-col">
             <span className="text-gray-500 font-extrabold my-4 text-2xl flex items-center justify-between">
@@ -61,6 +64,8 @@ export default async function Project({ token, userId }: { token: string , userI
             {!project.clientEmail && (
                 <ProgressUpdateCTA projectId={project.id} />
             )}
+
+            <HeatMap data={activityData} />
 
             {project.milestones.length >= 1 ? (
                 project.milestones.map((milestone, index) => (

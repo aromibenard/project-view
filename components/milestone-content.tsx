@@ -14,9 +14,9 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
 export default function MilestoneContent({
-    milestone, isOwner, token, clientEmail 
+    milestone, isOwner, token, clientEmail, projectId
 }: { 
-    milestone: Milestone, isOwner: boolean, token: string, clientEmail: string | null
+    milestone: Milestone, isOwner: boolean, token: string, clientEmail: string | null, projectId: string
 }) {
     const [markingDonestate, markStepDoneformAction, isMarkingStepDonePending] = useActionState(markStepDone, null)
     const [deleteMilestoneState, deleteMilestoneFormAction, isDeletingMilestonePending] = useActionState(deleteMilestone, null)
@@ -186,7 +186,7 @@ export default function MilestoneContent({
 
                         {isLastStep && isOwner && (
                             <div className="mt-2">
-                                <AddStep id={milestone.id} token={token} />
+                                <AddStep id={milestone.id} token={token} projectId={projectId} />
                             </div>
                         )}
                     </div>
@@ -194,7 +194,7 @@ export default function MilestoneContent({
             })}
             {milestone.steps.length < 0.9 && isOwner && (
                 <div className="mt-2">
-                    <AddStep id={milestone.id} token={token} />
+                    <AddStep id={milestone.id} token={token} projectId={projectId} />
                 </div>
             )}
             </div>

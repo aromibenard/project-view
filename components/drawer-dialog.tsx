@@ -32,7 +32,7 @@ import { Switch } from "@/components/ui/switch"
 import { createStep } from "@/lib/actions/createStep"
 import Form from "next/form"
 
-export function AddStep({ id, token }: { id: string, token: string }) {
+export function AddStep({ id, token, projectId }: { id: string, token: string, projectId: string }) {
     const [open, setOpen] = React.useState(false)
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -49,7 +49,7 @@ export function AddStep({ id, token }: { id: string, token: string }) {
                 Add single or multiple steps at once.
                 </DialogDescription>
             </DialogHeader>
-            <NewStepForm id={id} token={token} />
+            <NewStepForm id={id} token={token} projectId={projectId} />
             </DialogContent>
         </Dialog>
         )
@@ -67,7 +67,7 @@ export function AddStep({ id, token }: { id: string, token: string }) {
                 Add single or multiple steps at once.
             </DrawerDescription>
             </DrawerHeader>
-            <NewStepForm className="px-4" id={id} token={token} />
+            <NewStepForm className="px-4" id={id} token={token} projectId={projectId} />
             <DrawerFooter className="pt-2">
             <DrawerClose asChild>
                 <Button variant="outline">Cancel</Button>
@@ -78,7 +78,7 @@ export function AddStep({ id, token }: { id: string, token: string }) {
     )
 }
 
-function NewStepForm({ className, id, token }: { className?: string, id: string, token: string }) {
+function NewStepForm({ className, id, token, projectId }: { className?: string, id: string, token: string, projectId: string }) {
     const [isMultiple, setIsMultiple] = React.useState(false)
     
     return (
@@ -116,6 +116,7 @@ function NewStepForm({ className, id, token }: { className?: string, id: string,
             
             <input type="hidden" value={id} name="milestoneId"/>
             <input type="hidden" value={token} name="projectToken"/>
+            <input type="hidden" value={projectId} name="projectId"/>
             
             <SubmitButton
                 pendingChildren={<Spinner />}

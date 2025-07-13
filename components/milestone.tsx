@@ -68,7 +68,8 @@ export async function MilestoneSection({
                     milestone={milestone} 
                     isOwner={isOwner}
                     token={token}
-                    clientEmail={clientEmail} 
+                    clientEmail={clientEmail}
+                    projectId={projectId} 
                 />
                 {isLast && isOwner && (
                     <AddMilestone token={token} projectId={projectId} />

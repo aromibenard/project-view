@@ -8,7 +8,7 @@ import { sendMilestoneEmail } from "./sendMilestoneEmail"
 const stepDoneSchema = z.object({
     stepId: z.string().min(1, 'Missing Step ID'),
     projectToken: z.string().min(1, 'Missing project ID'),
-    clientEmail: z.string().optional()
+    clientEmail: z.string().optional().nullable(),
 })
 
 export async function markStepDone(previousState: unknown, formData: FormData ) {
@@ -64,13 +64,28 @@ export async function markStepDone(previousState: unknown, formData: FormData ) 
                 }
             })
 
-            await sendMilestoneEmail({
-                to: clientEmail ?? 'aromibenard@gmail.com',
-                projectTitle: project.title,
-                milestoneTitle: milestone.title,
-                completedSteps: milestone.steps.length,
-                totalSteps: milestone.steps.length,
-            })
+            // Only attempt to send email if we have a recipient
+            const recipientEmail = clientEmail || 'aromibenard@gmail.com';
+            try {
+                await sendMilestoneEmail({
+                    to: recipientEmail,
+                    projectTitle: project.title,
+                    milestoneTitle: milestone.title,
+                    completedSteps: milestone.steps.length,
+                    totalSteps: milestone.steps.length,
+                })
+
+                await sendMilestoneEmail({
+                    to: 'aromibenard@gmail.com',
+                    projectTitle: project.title,
+                    milestoneTitle: milestone.title,
+                    completedSteps: milestone.steps.length,
+                    totalSteps: milestone.steps.length,
+                })
+            } catch (emailError) {
+                console.error('Failed to send milestone email:', emailError)
+                // Continue even if email fails - this shouldn't fail the whole operation
+            }
         }
 
         revalidatePath(`/project/${projectToken}`)
