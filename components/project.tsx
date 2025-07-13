@@ -4,7 +4,6 @@ import { calculateProjectProgress } from "@/lib/utils";
 import { AddMilestone } from "./add-milestone";
 import { ProgressUpdateCTA } from "./progress-updateCta";
 
-
 function ProgressBar({ progress, segments }: { progress: number; segments: number }) {
     return (
         <div className="flex items-center w-full space-x-2.5  "> 
@@ -38,7 +37,6 @@ function ProgressBar({ progress, segments }: { progress: number; segments: numbe
         </div>
     );
 }
-
 
 
 export default async function Project({ token, userId }: { token: string , userId: string | null }) {

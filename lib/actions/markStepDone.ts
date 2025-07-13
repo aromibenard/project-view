@@ -31,7 +31,7 @@ export async function markStepDone(previousState: unknown, formData: FormData ) 
         
         const step = await db.step.update({
             where: { id: stepId },
-            data: { completed: true },
+            data: { completed: true, completedAt: new Date() },
             include: { 
                 milestone: {
                     include: {
