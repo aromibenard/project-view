@@ -11,7 +11,8 @@ export async function getProject(token: string) {
             include: { 
                 user: true,
                 milestones: { 
-                    include: { steps: true }
+                    include: { steps: true },
+                    orderBy: { createdAt: 'asc' }
                 }
             },
         });
